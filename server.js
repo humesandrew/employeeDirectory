@@ -28,18 +28,18 @@ inquirer
         message: "What would you like to view (all)?",
         choices: ["Department", "Role", "Employee"],
     }])
-    
-    .then((answers) => {
-            switch (answers.name) {
-                case "Department":
-                db.query("SELECT * FROM department", function (err, answers) {
-                    console.log(answers);
-                
 
+    .then((answer) => {
+        switch (answer.viewAll) {
+            case "Department":
+                db.query("SELECT * FROM department", function (err, answer) {
+                    console.table(answer);
 
                 })
+                break
         }
+
     })
 
 
-        app.listen(PORT, () => console.log("Server started on port: 3001"));
+app.listen(PORT, () => console.log("Server started on port: 3001"));
