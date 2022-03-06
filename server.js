@@ -27,21 +27,19 @@ inquirer
         name: "viewAll",
         message: "What would you like to view (all)?",
         choices: ["Department", "Role", "Employee"],
-    }, ])
+    }])
+    
     .then((answers) => {
-            // console.log(JSON.stringify(answers, null, "  "))
-
             switch (answers.name) {
-                case "Department",
-                db.query("SELECT * FROM department", function (err, results) {
-                    console.log(results);
-                }), }
+                case "Department":
+                db.query("SELECT * FROM department", function (err, answers) {
+                    console.log(answers);
+                
 
+
+                })
         }
-                //     db.query("SELECT * FROM department", function (err, results) {
-                //         console.log(results);
-                // //   console.log(answers.viewAll);
-                //     }
-                //   );
-                // 
-                app.listen(PORT, () => console.log("Server started on port: 3001"));
+    })
+
+
+        app.listen(PORT, () => console.log("Server started on port: 3001"));
