@@ -34,12 +34,18 @@ inquirer
             case "Department":
                 db.query("SELECT * FROM department", function (err, answer) {
                     console.table(answer);
-
                 })
-                break
-        }
+                break;
+            
+      
+            
+            }}); 
 
-    })
+      
 
+
+            
 
 app.listen(PORT, () => console.log("Server started on port: 3001"));
+
+// junniper // TOD\
