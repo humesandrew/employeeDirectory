@@ -50,7 +50,7 @@ function startPrompt() {
           break;
 
         case "View all Roles":
-          db.query("SELECT * FROM role", function (err, answer) {
+          db.query("SELECT * FROM role INNER JOIN department ON department.id=role.department_id;", function (err, answer) {
             console.table(answer)
             startPrompt();
           });
@@ -121,55 +121,54 @@ function startPrompt() {
           });
           break;
 
-          case "Add Employee":
-            db.query("SELECT employees.first_name AS FirstName, employees.last_name AS LastName, employees.role_id as RoleId, employees.manager_id as ManagerId FROM employees", function (err, res) {
-              inquirer.prompt([{
-                    name: "FirstName",
-                    type: "input",
-                    message: "What is the employees first name?"
+        case "Add Employee":
+          db.query("SELECT employees.first_name AS FirstName, employees.last_name AS LastName, employees.role_id as RoleId, employees.manager_id as ManagerId FROM employees", function (err, res) {
+            inquirer.prompt([{
+                  name: "FirstName",
+                  type: "input",
+                  message: "What is the employees first name?"
+                },
+                {
+                  name: "LastName",
+                  type: "input",
+                  message: "What is the employees last name?"
+
+                },
+                {
+                  name: "RoleId",
+                  type: "input",
+                  message: "What is the employees roll id?"
+
+                },
+                {
+                  name: "ManagerId",
+                  type: "input",
+                  message: "What is the employees manager id?"
+
+                }
+              ])
+              .then(function (res) {
+                db.query(
+                  "INSERT INTO employees SET ?", {
+                    first_name: res.FirstName,
+                    last_name: res.LastName,
+                    role_id: res.RoleId,
+                    manager_id: res.ManagerId
                   },
-                  {
-                    name: "LastName",
-                    type: "input",
-                    message: "What is the employees last name?"
-  
-                  },
-                  {
-                    name: "RoleId",
-                    type: "input",
-                    message: "What is the employees roll id?"
-  
-                  },
-                  {
-                    name: "ManagerId",
-                    type: "input",
-                    message: "What is the employees manager id?"
-  
+                  function (err) {
+                    if (err) throw err
+                    console.table(res);
+                    startPrompt();
                   }
-                ])
-                .then(function (res) {
-                  db.query(
-                    "INSERT INTO employees SET ?", {
-                      first_name: res.FirstName,
-                      last_name: res.LastName,
-                      role_id: res.RoleId,
-                      manager_id: res.ManagerId
-                    },
-                    function (err) {
-                      if (err) throw err
-                      console.table(res);
-                      startPrompt();
-                    }
-                  )
-  
-                });
-            });
-            break;
+                )
+
+              });
+          });
+          break;
 
         case "Update Employee":
           updateEmployee();
           break;
-
 
 
 
