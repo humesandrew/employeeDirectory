@@ -30,7 +30,7 @@ inquirer
       type: "list",
       name: "viewAll",
       message: "What would you like to view (all)?",
-      choices: ["Department", "Role", "Employee"],
+      choices: ["Department", "Role", "Employees"],
     },
   ])
 
@@ -48,8 +48,8 @@ inquirer
         });
         break;
 
-      case "Employee":
-        db.query("SELECT * FROM employee", function (err, answer) {
+      case "Employees":
+        db.query("SELECT * FROM employees", function (err, answer) {
           console.table(answer);
         });
         break;
