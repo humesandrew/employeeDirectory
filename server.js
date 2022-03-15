@@ -50,7 +50,7 @@ function startPrompt() {
           break;
 
         case "View all Roles":
-          db.query("SELECT * FROM role INNER JOIN department ON department.id=role.department_id;", function (err, answer) {
+          db.query("SELECT * FROM role RIGHT OUTER JOIN department ON department.id=role.department_id;", function (err, answer) {
             console.table(answer)
             startPrompt();
           });
