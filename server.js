@@ -57,7 +57,7 @@ function startPrompt() {
           break;
 
         case "View all Employees":
-          db.query("SELECT * FROM employees", function (err, answer) {
+          db.query("SELECT * FROM employees INNER JOIN role ON role_id=role.id", function (err, answer) {
             console.table(answer)
             startPrompt();
           });
