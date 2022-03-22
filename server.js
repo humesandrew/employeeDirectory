@@ -41,182 +41,141 @@ function startPrompt() {
       ],
     }, ])
     .then(function (answer) {
-      switch (answer.choice) {
-        case "View all Departments":
-          db.query("SELECT * FROM department", function (err, answer) {
-            console.table(answer)
-            startPrompt();
-          });
-          break;
+        switch (answer.choice) {
+          case "View all Departments":
+            db.query("SELECT * FROM department", function (err, answer) {
+              console.table(answer)
+              startPrompt();
+            });
+            break;
 
-        case "View all Roles":
-          db.query("SELECT * FROM role RIGHT OUTER JOIN department ON department.id=role.department_id;", function (err, answer) {
-            console.table(answer)
-            startPrompt();
-          });
-          break;
+          case "View all Roles":
+            db.query("SELECT * FROM role RIGHT OUTER JOIN department ON department.id=role.department_id;", function (err, answer) {
+              console.table(answer)
+              startPrompt();
+            });
+            break;
 
-        case "View all Employees":
-          db.query("SELECT * FROM employees INNER JOIN role ON role_id=role.id", function (err, answer) {
-            console.table(answer)
-            startPrompt();
-          });
-          break;
+          case "View all Employees":
+            db.query("SELECT * FROM employees INNER JOIN role ON role_id=role.id", function (err, answer) {
+              console.table(answer)
+              startPrompt();
+            });
+            break;
 
-        case "Add Department":
-          inquirer.prompt([{
-            name: "addDepartment",
-            type: "input",
-            message: "What Department would you like to add?"
-          }]).then(function (res) {
-            db.query(
-              "INSERT INTO department SET ? ", {
-                name: res.addDepartment
+          case "Add Department":
+            inquirer.prompt([{
+              name: "addDepartment",
+              type: "input",
+              message: "What Department would you like to add?"
+            }]).then(function (res) {
+              db.query(
+                "INSERT INTO department SET ? ", {
+                  name: res.addDepartment
 
-              },
-              function (err) {
-                if (err) throw err
+                },
+                function (err) {
+                  if (err) throw err
+                  console.table(res);
+                  startPrompt();
+                }
+              )
+            });
+            break;
+
+          case "Add Role":
+            db.query("SELECT role.title AS Title, role.salary AS Salary, role.department_id AS Department FROM role", function (err, res) {
+              inquirer.prompt([{
+                    name: "Title",
+                    type: "input",
+                    message: "What is the roles Title?"
+                  },
+                  {
+                    name: "Salary",
+                    type: "input",
+                    message: "What is the Salary?"
+
+                  },
+                  {
+                    name: "Department",
+                    type: "input",
+                    message: "What is the Department ID?"
+
+                  }
+                ])
+                .then(function (res) {
+                  db.query(
+                    "INSERT INTO role SET ?", {
+                      title: res.Title,
+                      salary: res.Salary,
+                      department_id: res.Department
+                    },
+                    function (err) {
+                      if (err) throw err
+                      console.table(res);
+                      startPrompt();
+                    }
+                  )
+
+                });
+            });
+            break;
+
+          case "Add Employee":
+            db.query("SELECT employees.first_name AS FirstName, employees.last_name AS LastName, employees.role_id as RoleId, employees.manager_id as ManagerId FROM employees", function (err, res) {
+              inquirer.prompt([{
+                    name: "FirstName",
+                    type: "input",
+                    message: "What is the employees first name?"
+                  },
+                  {
+                    name: "LastName",
+                    type: "input",
+                    message: "What is the employees last name?"
+
+                  },
+                  {
+                    name: "RoleId",
+                    type: "input",
+                    message: "What is the employees roll id?"
+
+                  },
+                  {
+                    name: "ManagerId",
+                    type: "input",
+                    message: "What is the employees manager id?"
+
+                  }
+                ])
+                .then(function (res) {
+                  db.query(
+                    "INSERT INTO employees SET ?", {
+                      first_name: res.FirstName,
+                      last_name: res.LastName,
+                      role_id: res.RoleId,
+                      manager_id: res.ManagerId
+                    },
+                    function (err) {
+                      if (err) throw err
+                      console.table(res);
+                      startPrompt();
+                    }
+                  )
+
+                });
+            });
+            break;
+
+            case "Update Employee":
+              db.query("SELECT * FROM employees", function (err, res) {
                 console.table(res);
-                startPrompt();
-              }
-            )
-          });
-          break;
-
-        case "Add Role":
-          db.query("SELECT role.title AS Title, role.salary AS Salary, role.department_id AS Department FROM role", function (err, res) {
-            inquirer.prompt([{
-                  name: "Title",
-                  type: "input",
-                  message: "What is the roles Title?"
-                },
-                {
-                  name: "Salary",
-                  type: "input",
-                  message: "What is the Salary?"
-
-                },
-                {
-                  name: "Department",
-                  type: "input",
-                  message: "What is the Department ID?"
-
-                }
-              ])
-              .then(function (res) {
-                db.query(
-                  "INSERT INTO role SET ?", {
-                    title: res.Title,
-                    salary: res.Salary,
-                    department_id: res.Department
-                  },
-                  function (err) {
-                    if (err) throw err
-                    console.table(res);
-                    startPrompt();
-                  }
-                )
-
+                
+              
+             
               });
-          });
-          break;
+             
+          
 
-        case "Add Employee":
-          db.query("SELECT employees.first_name AS FirstName, employees.last_name AS LastName, employees.role_id as RoleId, employees.manager_id as ManagerId FROM employees", function (err, res) {
-            inquirer.prompt([{
-                  name: "FirstName",
-                  type: "input",
-                  message: "What is the employees first name?"
-                },
-                {
-                  name: "LastName",
-                  type: "input",
-                  message: "What is the employees last name?"
+          }})}
 
-                },
-                {
-                  name: "RoleId",
-                  type: "input",
-                  message: "What is the employees roll id?"
-
-                },
-                {
-                  name: "ManagerId",
-                  type: "input",
-                  message: "What is the employees manager id?"
-
-                }
-              ])
-              .then(function (res) {
-                db.query(
-                  "INSERT INTO employees SET ?", {
-                    first_name: res.FirstName,
-                    last_name: res.LastName,
-                    role_id: res.RoleId,
-                    manager_id: res.ManagerId
-                  },
-                  function (err) {
-                    if (err) throw err
-                    console.table(res);
-                    startPrompt();
-                  }
-                )
-
-              });
-          });
-          break;
-
-        case "Update Employee":
-          updateEmployee();
-          break;
-
-
-
-      }
-    });
-}
-
-
-
-
-
-
-
-
-
-
-// inquirer
-//   .prompt([
-//     {
-//       type: "list",
-//       name: "viewAll",
-//       message: "What would you like to view (all)?",
-//       choices: ["Department", "Role", "Employees"],
-//     },
-//   ])
-
-//   .then((answer) => {
-//     switch (answer.viewAll) {
-//       case "Department":
-//         db.query("SELECT * FROM department", function (err, answer) {
-//           console.table(answer);
-//         });
-//         break;
-
-//       case "Role":
-//         db.query("SELECT * FROM role", function (err, answer) {
-//           console.table(answer);
-//         });
-//         break;
-
-//       case "Employees":
-//         db.query("SELECT * FROM employees", function (err, answer) {
-//           console.table(answer);
-//         });
-//         break;
-//     }
-//   });
-
-app.listen(PORT, () => console.log("Server started on port: 3001"));
-
-// junniper // TOD\
+            app.listen(PORT, () => console.log("Server started on port: 3001"));
