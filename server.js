@@ -175,7 +175,7 @@ function startPrompt() {
               employeesArr.push(res[i].first_name + " " + res[i].last_name);
             };
 
-           
+
             inquirer.prompt([{
                 name: "updateEmployee",
                 type: "list",
@@ -187,10 +187,21 @@ function startPrompt() {
                 type: "input",
                 message: "What would you like the new role ID to be (1: Technician, 2: Doctor 3. HR?",
               }
-            ])
+            ]).then(function (res) {
+                
+              console.log(res.updateEmployee);
+            })
           });
       }
     })
 }
 
 app.listen(PORT, () => console.log("Server started on port: 3001"));
+
+
+// // SELECT * FROM employees_db.employees;
+
+// "UPDATE employees SET role_id="2" WHERE id="1"";// 
+// this works in sql workbench to update employee with id 1 (Andy Humes) to have role_id of 2 (doctor)//
+           
+//             // 
