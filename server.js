@@ -167,12 +167,29 @@ function startPrompt() {
             break;
 
             case "Update Employee":
-              db.query("SELECT * FROM employees", function (err, res) {
+            var employeesArr = [];  
+            db.query("SELECT * FROM employees", function (err, res) {
                 console.table(res);
+                if (err) throw err;
+                for (var i = 0; i < res.length; i++) {
+                  employeesArr.push(res[i].first_name + " " + res[i].last_name);
+                }
                 
               
-             
-              });
+             console.table(employeesArr);
+             inquirer.prompt([{
+               name: "updateEmployee",
+               type: "list",
+               message: "Select employee.",
+               choices: employeesArr
+
+             }])
+
+              }
+
+           
+
+              );
              
           
 
