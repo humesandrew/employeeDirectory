@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const inquirer = require("inquirer");
 const fs = require("fs");
 
+
 const mysql = require("mysql2");
 
 app.use(
@@ -167,97 +168,35 @@ function startPrompt() {
           break;
 
         case "Update Employee":
-          // var employeesArr = [];
-          // db.query("SELECT * FROM employees INNER JOIN role ON employees.role_id = role.id", function (err, res) {
-          //   console.table(res);
-          //   if (err) throw err;
-          //   for (var i = 0; i < res.length; i++) {
-          //     employeesArr.push(res[i].first_name + " " + res[i].last_name);
-          //   };
+          var employeesArr = [];
+          db.query("SELECT * FROM employees INNER JOIN role ON employees.role_id = role.id", function (err, res) {
+            console.table(res);
+            if (err) throw err;
+            for (var i = 0; i < res.length; i++) {
+              employeesArr.push(res[i].first_name + " " + res[i].last_name);
+            };
 
 
-          //   inquirer.prompt([{
-          //       name: "updateEmployee",
-          //       type: "list",
-          //       message: "Select employee.",
-          //       choices: employeesArr
-          //     },
-          //     {
-          //       name: "updateRole",
-          //       type: "input",
-          //       message: "What would you like the new role ID to be (1: Technician, 2: Doctor 3. HR?",
-          //     }
-          //   ]).then(function (res) {
-                
-          //     console.log(res.updateEmployee);
-          //   })
-          // });
-
-
-          function updateRole() {
-            connection.promise().query('SELECT * FROM employee')
-                .then(([results]) => {
-                    let updates = [];
-                    results.map(
-                        (result) => {
-                            updates.push(result.id + ' ' + result.first_name);
-                        }
-                    );
-                    // Selects the employee
-                    inquirer.prompt([{
-                            type: "list",
-                            name: 'employee',
-                            message: 'Choose the employee',
-                            choices: updates
-                        }])
-                        .then(answers => {
-                            // Targets the selected employee's ID
-                            let id = answers.employee.substr(0, 4);
-                            // Selects role titles from database
-                            connection.promise().query('SELECT * FROM role')
-                                .then(([results]) => {
-                                    let updates = [];
-                                    results.map(
-                                        (result) => {
-                                            updates.push(result.id + ' ' + result.title);
-                                        }
-                                    );
-                                    // Selects the new role
-                                    inquirer.prompt([{
-                                            type: 'list',
-                                            name: 'role',
-                                            message: 'Select the new role',
-                                            choices: updates
-                                        }])
-                                        .then(answers => {
-                                            // Updates the new role in the database using the selected roles id
-                                            let role_id = answers.role.substr(0, 4);
-                                            connection.promise().query('UPDATE employee SET role_id = ? WHERE id=?', [role_id, id]);
-                                            getEmployees();
-                                            // questions();
-                                        });
-                                });
-                        });
-                });
-
-
+            inquirer.prompt([{
+                name: "updateEmployee",
+                type: "list",
+                message: "Select employee.",
+                choices: employeesArr
+              },
+              {
+                name: "updateRole",
+                type: "input",
+                message: "What would you like the new role ID to be (1: Technician, 2: Doctor 3. HR?",
               }
-
-
-
-
-
-          
+            ]).then(function (res) {
+              const newRoleId = res.value;
+              db.query('UPDATE employees SET role_id = ? WHERE id=?', [newRoleId, employeesArr[i]]);
+              console.log(res.updateEmployee);
+              console.table(res);
+            })
+          });
       }
     })
 }
 
 app.listen(PORT, () => console.log("Server started on port: 3001"));
-
-
-// // SELECT * FROM employees_db.employees;
-
-// "UPDATE employees SET role_id="2" WHERE id="1"";// 
-// this works in sql workbench to update employee with id 1 (Andy Humes) to have role_id of 2 (doctor)//
-           
-//             // 

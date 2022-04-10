@@ -1,7 +1,8 @@
 # Employee Directory
   ![GitHub License](https://img.shields.io/badge/license-humesandrew-blue.svg)
+  
   ## Description
-    This project is an application that allows you to track data about employees at your company. This is a command line application that will manage a MySQL2 database of your employees and their associated job positions, salary, and department. 
+    This project is an application that allows you to track data about employees at your company. This is a command line application that will manage a MySQL2 database of your employees and their associated job positions, salary, and department. The application features a mockup company (an ophthalmology practice) and it's employees seeded in the database for demonstration purposes. 
 
   ## Table of Contents (Optional)
   - [Installation](#installation)
@@ -11,11 +12,13 @@
   - [Questions](#questions)
 
   ## Installation
-    MySQL2; Node.js; 
+    You'll need to have Node and MySQL2 installed locally. 
 
   ## Usage
 
-    Up and down keys navigate the command line.
+    Type "node server" in the command line fo the root folder to initialize the application. Use the Up and down keys to navigate the command line prompts, and enter to submit. Here is a video demonstration of the app.
+
+  [Click for video demonstration.](https://drive.google.com/file/d/1BJ9QvE8hGK6_UTbfl5CAA3R88YcjtLeE/view)
 
   ## License
     This project is licensed under humesandrew.
@@ -25,8 +28,8 @@
 
   ## Questions
 
-  [Repository](https://github.com/humesandrew/employeeDirectory)
+  [Click for project repository](https://github.com/humesandrew/employeeDirectory)
 
-  [Click for GitHub Profile.](https://github.com/humesandrew)
+  [Click for GitHub profile.](https://github.com/humesandrew)
 
   [Click to email.](mailto:humes.andrew@gmail.com)
