@@ -17,7 +17,7 @@
   ## Usage
 
     Type "node server" in the command line fo the root folder to initialize the application. Use the Up and down keys to navigate the command line prompts, and enter to submit. Here is a video demonstration of the app.
-
+ ![Screenshot](/employeedirectoryfull.jpg?raw=true "Screenshot")
   [Click for video demonstration.](https://drive.google.com/file/d/1BJ9QvE8hGK6_UTbfl5CAA3R88YcjtLeE/view)
 
   ## License
